@@ -1,15 +1,16 @@
 import express from 'express';
-const authRouter = express.Router();
+const Router = express.Router();
+import authMiddleware from '../middleware/authMiddleware.js';
 
 // Importing controllers
-import { registerUser, loginUser } from '../controllers/authController.js';
+import { registerUser, loginUser ,logoutUser,getMeController} from '../controllers/authController.js';
 
 /**
  * Path: /api/auth/register
  * Method: POST
  * Description: Register a new user
  */
-authRouter.post('/register', registerUser);
+Router.post('/register', registerUser);
 
 
 /**
@@ -17,6 +18,20 @@ authRouter.post('/register', registerUser);
  * Method: POST
  * Description: Login a user
  */
-authRouter.post('/login', loginUser);
+Router.post('/login', loginUser);
 
-export default authRouter;
+
+/**
+ * Path: /api/auth/logout
+ * Method: GET
+ * Description: clear the token cookie to log out the user and blacklist the token
+ */
+Router.get('/logout',logoutUser); 
+    
+/**
+ * Path: /api/auth/get-me
+ * Method: GET
+ * Description: Get the current user's information
+ */
+Router.get('/get-me', authMiddleware, getMeController);
+export default Router;
