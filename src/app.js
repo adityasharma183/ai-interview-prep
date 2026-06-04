@@ -1,12 +1,13 @@
 import express from 'express';
+import authRouter from './routes/authRoutes.js';
+import cookieParser from 'cookie-parser';
 
 const app = express();
-//require all the routes here
-const authRouter = await import('./routes/authRoutes.js');
-
-//using the routes here
-app.use('/api/auth', authRouter.default);
-
+app.use(cookieParser());
 app.use(express.json());
+
+
+
+app.use('/api/auth', authRouter);
 
 export default app;
