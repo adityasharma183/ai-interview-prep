@@ -1,0 +1,520 @@
+// ─── Interview Page Styles - Two Column Layout ───────────────────────────────
+
+// ─── Design Tokens ───────────────────────────────────────────────────────────
+
+$color-bg:               #020617;
+$color-surface-0:        #0F172A;
+$color-surface-1:        #1E293B;
+$color-surface-2:        #334155;
+$color-border:           #1E293B;
+$color-border-focus:     #2563EB;
+$color-primary:          #2563EB;
+$color-primary-hover:    #1D4ED8;
+$color-primary-disabled: #334155;
+$color-text-main:        #D3E4FE;
+$color-text-muted:       #94A3B8;
+$color-text-hint:        #64748B;
+$color-teal:             #7BD0FF;
+$color-teal-bg:          rgba(123, 208, 255, 0.1);
+$color-teal-border:      rgba(123, 208, 255, 0.25);
+$color-amber:            #F59E0B;
+$color-green:            #10b981;
+$color-red:              #ef4444;
+
+$radius-sm:   6px;
+$radius-md:   8px;
+$radius-lg:   12px;
+$radius-xl:   14px;
+$radius-2xl:  16px;
+$radius-full: 9999px;
+
+$font-main: Inter, system-ui, -apple-system, sans-serif;
+
+// ─── Main Interview Component ─────────────────────────────────────────────────
+
+.interview {
+  min-height: 100vh;
+  background: $color-bg;
+  color: $color-text-main;
+  font-family: $font-main;
+  padding: 88px 40px 48px;
+  max-width: 1400px;
+  margin: 0 auto;
+  width: 100%;
+  
+  &__layout {
+    display: grid;
+    grid-template-columns: 1fr 320px;
+    gap: 32px;
+    align-items: start;
+  }
+  
+  &__left {
+    background: $color-surface-0;
+    border-radius: $radius-2xl;
+    border: 1px solid $color-border;
+    overflow: hidden;
+  }
+  
+  &__right {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+  
+  &__tabs {
+    display: flex;
+    border-bottom: 1px solid $color-border;
+    background: $color-surface-1;
+    padding: 0 20px;
+  }
+  
+  &__tab {
+    background: none;
+    border: none;
+    padding: 16px 20px;
+    font-family: $font-main;
+    font-size: 13px;
+    font-weight: 500;
+    color: $color-text-muted;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.15s;
+    position: relative;
+    
+    i {
+      font-size: 14px;
+      color: $color-text-hint;
+    }
+    
+    &:hover {
+      color: $color-text-main;
+      
+      i {
+        color: $color-text-muted;
+      }
+    }
+    
+    &--active {
+      color: $color-primary;
+      
+      i {
+        color: $color-primary;
+      }
+      
+      &::after {
+        content: '';
+        position: absolute;
+        bottom: -1px;
+        left: 0;
+        right: 0;
+        height: 2px;
+        background: $color-primary;
+      }
+    }
+    
+    &-count {
+      font-size: 11px;
+      color: $color-text-hint;
+      background: $color-surface-2;
+      padding: 2px 6px;
+      border-radius: $radius-full;
+      margin-left: 4px;
+    }
+  }
+  
+  &__content {
+    padding: 24px;
+  }
+}
+
+// ─── Questions Section ────────────────────────────────────────────────────────
+
+.questions-section {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.question-item {
+  border-bottom: 1px solid $color-border;
+  padding-bottom: 20px;
+  
+  &:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+  }
+  
+  &__header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+    user-select: none;
+    transition: all 0.15s;
+    
+    &:hover {
+      .question-item__title {
+        color: $color-primary;
+      }
+      
+      .question-item__toggle {
+        color: $color-primary;
+      }
+    }
+  }
+  
+  &__number {
+    font-size: 14px;
+    font-weight: 700;
+    color: $color-primary;
+    background: rgba(37, 99, 235, 0.1);
+    padding: 2px 8px;
+    border-radius: $radius-sm;
+    height: fit-content;
+  }
+  
+  &__title {
+    font-size: 15px;
+    font-weight: 600;
+    color: $color-text-main;
+    margin: 0;
+    line-height: 1.5;
+    flex: 1;
+    transition: color 0.15s;
+  }
+  
+  &__toggle {
+    font-size: 14px;
+    color: $color-text-hint;
+    transition: transform 0.2s ease, color 0.15s;
+    flex-shrink: 0;
+    
+    &.rotated {
+      transform: rotate(180deg);
+    }
+  }
+  
+  &__details {
+    margin-top: 16px;
+    margin-left: 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    animation: slideDown 0.2s ease-out;
+  }
+  
+  &__intention,
+  &__answer {
+    font-size: 13px;
+    line-height: 1.6;
+    color: $color-text-muted;
+    
+    i {
+      color: $color-primary;
+      margin-right: 8px;
+      font-size: 12px;
+    }
+    
+    strong {
+      color: $color-text-main;
+      font-weight: 600;
+      margin-right: 8px;
+    }
+  }
+  
+  &__answer {
+    color: $color-text-main;
+  }
+}
+
+// ─── Roadmap Section ──────────────────────────────────────────────────────────
+
+.roadmap-section {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+.plan-item {
+  &__header {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 12px;
+    align-items: baseline;
+  }
+  
+  &__week {
+    font-size: 12px;
+    font-weight: 700;
+    color: $color-primary;
+    background: rgba(37, 99, 235, 0.1);
+    padding: 4px 10px;
+    border-radius: $radius-sm;
+    white-space: nowrap;
+  }
+  
+  &__focus {
+    font-size: 15px;
+    font-weight: 600;
+    color: $color-text-main;
+    margin: 0;
+  }
+  
+  &__tasks {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 0 28px;
+    
+    li {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 13px;
+      color: $color-text-muted;
+      margin-bottom: 10px;
+      line-height: 1.5;
+      
+      i {
+        color: $color-green;
+        font-size: 12px;
+        flex-shrink: 0;
+      }
+      
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+  }
+}
+
+// ─── Match Score Card ─────────────────────────────────────────────────────────
+
+.match-score-card {
+  background: linear-gradient(135deg, $color-surface-0 0%, $color-surface-1 100%);
+  border: 1px solid $color-border;
+  border-radius: $radius-2xl;
+  padding: 24px;
+  text-align: center;
+  
+  &__header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin-bottom: 20px;
+    
+    i {
+      font-size: 20px;
+      color: $color-primary;
+    }
+    
+    h3 {
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      color: $color-text-muted;
+      margin: 0;
+    }
+  }
+  
+  &__score {
+    margin-bottom: 12px;
+  }
+  
+  &__percentage {
+    font-size: 64px;
+    font-weight: 800;
+    background: linear-gradient(135deg, $color-primary 0%, $color-teal 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  
+  &__description {
+    font-size: 13px;
+    color: $color-green;
+    margin: 0;
+    font-weight: 500;
+  }
+}
+
+// ─── Skill Gaps Card ─────────────────────────────────────────────────────────
+
+.skill-gaps-card {
+  background: $color-surface-0;
+  border: 1px solid $color-border;
+  border-radius: $radius-2xl;
+  padding: 24px;
+  
+  &__header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 20px;
+    
+    i {
+      font-size: 18px;
+      color: $color-amber;
+    }
+    
+    h3 {
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      color: $color-text-muted;
+      margin: 0;
+    }
+  }
+  
+  &__list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    
+    li {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 13px;
+      color: $color-text-main;
+      padding: 10px 0;
+      border-bottom: 1px solid $color-border;
+      flex-wrap: wrap;
+      
+      i {
+        font-size: 11px;
+        color: $color-amber;
+      }
+      
+      &:last-child {
+        border-bottom: none;
+        padding-bottom: 0;
+      }
+      
+      &:first-child {
+        padding-top: 0;
+      }
+    }
+  }
+  
+  &__skill {
+    flex: 1;
+  }
+  
+  &__importance {
+    font-size: 10px;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: $radius-full;
+    
+    &--high {
+      background: rgba(239, 68, 68, 0.1);
+      color: $color-red;
+    }
+    
+    &--medium {
+      background: rgba(245, 158, 11, 0.1);
+      color: $color-amber;
+    }
+    
+    &--low {
+      background: rgba(16, 185, 129, 0.1);
+      color: $color-green;
+    }
+  }
+}
+
+// ─── Animations ───────────────────────────────────────────────────────────────
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// ─── Responsive Design ────────────────────────────────────────────────────────
+
+@media (max-width: 968px) {
+  .interview {
+    padding: 80px 24px 32px;
+    
+    &__layout {
+      grid-template-columns: 1fr;
+      gap: 24px;
+    }
+    
+    &__right {
+      flex-direction: row;
+      gap: 20px;
+    }
+  }
+  
+  .match-score-card,
+  .skill-gaps-card {
+    flex: 1;
+  }
+}
+
+@media (max-width: 640px) {
+  .interview {
+    padding: 76px 16px 24px;
+    
+    &__tabs {
+      padding: 0 12px;
+      overflow-x: auto;
+      
+      &::-webkit-scrollbar {
+        display: none;
+      }
+    }
+    
+    &__tab {
+      white-space: nowrap;
+      padding: 12px 16px;
+      
+      &-count {
+        display: none;
+      }
+    }
+    
+    &__content {
+      padding: 20px 16px;
+    }
+    
+    &__right {
+      flex-direction: column;
+    }
+  }
+  
+  .question-item {
+    &__header {
+      gap: 8px;
+    }
+    
+    &__number {
+      flex-shrink: 0;
+    }
+    
+    &__details {
+      margin-left: 0;
+    }
+  }
+  
+  .match-score-card__percentage {
+    font-size: 48px;
+  }
+  
+  .skill-gaps-card__list li {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+  }
+}

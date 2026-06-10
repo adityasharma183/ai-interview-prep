@@ -1,0 +1,288 @@
+// ─── Design Tokens ───────────────────────────────────────────────────────────
+
+$color-bg:            #080f1a;
+$color-surface:       #0d1626;
+$color-surface-high:  #111d30;
+$color-border:        #1a2640;
+$color-border-focus:  #2563eb;
+$color-primary:       #2563eb;
+$color-primary-hover: #1d4ed8;
+$color-text-main:     #d3e4fe;
+$color-text-muted:    #64748b;
+$color-text-hint:     #2d3f58;
+$color-link:          #d3e4fe;
+$color-link-hover:    #fff;
+
+$radius-md:  8px;
+$radius-lg:  12px;
+$radius-xl:  16px;
+$radius-full: 9999px;
+
+$font-main: Inter, system-ui, -apple-system, sans-serif;
+
+// ─── Page Shell ──────────────────────────────────────────────────────────────
+
+.login-page {
+  min-height: 100vh;
+  background: $color-bg;
+  color: $color-text-main;
+  font-family: $font-main;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 16px;
+  gap: 24px;
+}
+
+// ─── Brand Header ────────────────────────────────────────────────────────────
+
+.login-brand {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+
+  &__icon-wrap {
+    width: 56px;
+    height: 56px;
+    background: $color-primary;
+    border-radius: $radius-lg;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    i {
+      font-size: 26px;
+      color: #fff;
+    }
+  }
+
+  &__name {
+    font-size: 18px;
+    font-weight: 700;
+    color: $color-text-main;
+    letter-spacing: -0.02em;
+  }
+}
+
+// ─── Card ────────────────────────────────────────────────────────────────────
+
+.login-card {
+  width: 100%;
+  max-width: 420px;
+  background: $color-surface;
+  border: 1px solid $color-border;
+  border-radius: $radius-xl;
+  padding: 36px 32px 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+
+  &__heading {
+    font-size: 26px;
+    font-weight: 700;
+    color: $color-text-main;
+    letter-spacing: -0.02em;
+    margin: 0;
+    text-align: center;
+  }
+
+  &__footer-text {
+    font-size: 13px;
+    color: $color-text-muted;
+    text-align: center;
+    margin: 0;
+
+    a {
+      color: $color-link;
+      text-decoration: none;
+      font-weight: 600;
+
+      &:hover { color: $color-link-hover; }
+    }
+  }
+}
+
+// ─── Form ────────────────────────────────────────────────────────────────────
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+// ─── Input Group ─────────────────────────────────────────────────────────────
+
+.input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+
+  &__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  &__label {
+    font-size: 12px;
+    font-weight: 500;
+    color: $color-text-muted;
+    letter-spacing: 0.03em;
+  }
+
+  &__forgot {
+    font-size: 12px;
+    color: $color-text-muted;
+    text-decoration: none;
+
+    &:hover { color: $color-text-main; }
+  }
+
+  &__field-wrap {
+    position: relative;
+    display: flex;
+    align-items: center;
+
+    i {
+      position: absolute;
+      left: 13px;
+      font-size: 15px;
+      color: $color-text-hint;
+      pointer-events: none;
+    }
+  }
+
+  &__field {
+    width: 100%;
+    background: $color-surface-high;
+    border: 1px solid $color-border;
+    border-radius: $radius-md;
+    color: $color-text-main;
+    font-size: 14px;
+    font-family: $font-main;
+    padding: 12px 14px 12px 38px;
+    outline: none;
+    transition: border-color 0.15s, box-shadow 0.15s;
+
+    &::placeholder { color: $color-text-hint; }
+
+    &:focus {
+      border-color: $color-border-focus;
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+    }
+  }
+}
+
+// ─── Submit Button ───────────────────────────────────────────────────────────
+
+.btn-login {
+  width: 100%;
+  background: $color-primary;
+  border: none;
+  border-radius: $radius-md;
+  color: #fff;
+  font-size: 15px;
+  font-weight: 700;
+  font-family: $font-main;
+  padding: 13px 0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: background 0.15s;
+  margin-top: 4px;
+
+  i { font-size: 16px; }
+
+  &:hover { background: $color-primary-hover; }
+
+  &:disabled {
+    background: #1a2640;
+    color: $color-text-muted;
+    cursor: not-allowed;
+  }
+}
+
+// ─── Divider ─────────────────────────────────────────────────────────────────
+
+.login-divider {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  &__line {
+    flex: 1;
+    height: 1px;
+    background: $color-border;
+  }
+
+  &__text {
+    font-size: 10px;
+    font-weight: 600;
+    color: $color-text-muted;
+    letter-spacing: 0.1em;
+    white-space: nowrap;
+  }
+}
+
+// ─── Social Buttons ──────────────────────────────────────────────────────────
+
+.login-socials {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.btn-social {
+  background: $color-surface-high;
+  border: 1px solid $color-border;
+  border-radius: $radius-md;
+  color: $color-text-main;
+  font-size: 13px;
+  font-weight: 600;
+  font-family: $font-main;
+  padding: 10px 0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: border-color 0.15s, background 0.15s;
+
+  i { font-size: 16px; }
+
+  &:hover {
+    background: $color-border;
+    border-color: $color-text-hint;
+  }
+}
+
+// ─── Page Footer ─────────────────────────────────────────────────────────────
+
+.login-footer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+
+  &__tagline {
+    font-size: 11px;
+    color: $color-text-muted;
+  }
+
+  &__links {
+    display: flex;
+    gap: 16px;
+  }
+
+  &__link {
+    font-size: 11px;
+    color: $color-text-muted;
+    text-decoration: none;
+
+    &:hover { color: $color-text-main; }
+  }
+}
