@@ -1,8 +1,9 @@
+
+
 import { createRequire } from 'module';
 import InterviewReportModel from '../models/interviewReportModel.js';
 import generateInterviewReport from '../services/aiServices.js';
 
-// Create a require instance to handle legacy dependencies safely
 const require = createRequire(import.meta.url);
 const pdfModule = require('pdf-parse');
 
@@ -13,62 +14,119 @@ async function generateInterViewReportController(req, res) {
             return res.status(400).json({ success: false, message: "Resume file is required" });
         }
 
-        // 1. Parse the PDF buffer via version 2.4.5 class constructor structure
+        // Parse PDF
         const PDFParserClass = pdfModule.PDFParse || pdfModule;
         const parserInstance = new PDFParserClass(Uint8Array.from(req.file.buffer));
         const resumeContent = await parserInstance.getText();
         const resumeText = resumeContent.text || resumeContent;
 
         const { selfDescription, jobDescription } = req.body;
-        
-        // 2. Request the structured report from your Gemini AI service
+
+        // Get AI response
         const aiResponse = await generateInterviewReport({
             resume: resumeText,
             selfDescription,
             jobDescription,
         });
 
-        // 3. RUNTIME KEY DECONSTRUCTION
-        // If the AI service nests the schema under a top-level key, grab the contents.
+        // Extract report data
         const report = aiResponse?.interview_report 
             || aiResponse?.interviewReport 
             || aiResponse?.data 
             || aiResponse;
 
-        // CRITICAL DEBUG: Print the resolved keys to your terminal so you can see what is happening
-        console.log("--- RESOLVED AI REPORT KEYS ---", Object.keys(report));
-        console.log("MATCH SCORE VALUE FOUND:", report.matchScore);
+        console.log("AI Response received:", JSON.stringify(report, null, 2));
 
-        // 4. Save to MongoDB with fallback checking to catch both camelCase and snake_case
-        const interViewReport = await InterviewReportModel.create({
-            user: req.user?.id, 
-            resume: resumeText, 
+        // Validate and transform data before saving
+        const validatedData = {
+            user: req.user?.id,
+            resume: resumeText,
             selfDescription,
             jobDescription,
             
-            // Checks for direct camelCase, then falls back to snake_case variants if needed
-            technicalQuestions: report.technicalQuestions || report.technical_questions || [],
-            behavioralQuestions: report.behavioralQuestions || report.behavioral_questions || [],
-            skillGaps: report.skillGaps || report.skill_gap_analysis || [],
-            preparationPlans: report.preparationPlans || report.preparation_plan || [],
+            // Ensure arrays exist
+            technicalQuestions: Array.isArray(report.technicalQuestions) ? report.technicalQuestions : [],
+            behavioralQuestions: Array.isArray(report.behavioralQuestions) ? report.behavioralQuestions : [],
+            skillGaps: Array.isArray(report.skillGaps) ? report.skillGaps : [],
+            preparationPlans: Array.isArray(report.preparationPlans) ? report.preparationPlans : [],
             
-            matchScore: typeof report.matchScore === 'object' 
-                ? (report.matchScore?.score || 0) 
-                : (report.matchScore || report.match_score || 0)
-        });
+            // Fix matchScore: extract number if it's an object
+            matchScore: (() => {
+                const score = report.matchScore;
+                if (typeof score === 'number') return score;
+                if (typeof score === 'object' && score !== null) {
+                    return score.score || score.value || 0;
+                }
+                return Number(score) || 0;
+            })()
+        };
 
-        return res.status(201).json({ 
+        // Additional validation for skillGaps importance field
+        if (validatedData.skillGaps.length > 0) {
+            validatedData.skillGaps = validatedData.skillGaps.map(gap => ({
+                skill: gap.skill,
+                // Extract only the importance keyword, remove any extra text
+                importance: (() => {
+                    const imp = (gap.importance || '').toString();
+                    if (imp.toLowerCase().includes('high')) return 'High';
+                    if (imp.toLowerCase().includes('medium')) return 'Medium';
+                    if (imp.toLowerCase().includes('low')) return 'Low';
+                    return 'Medium'; // default
+                })()
+            }));
+        }
+
+        // Create the report
+        const interViewReport = await InterviewReportModel.create(validatedData);
+
+        return res.status(201).json({
             message: 'Interview report generated successfully!!',
-            success: true, 
-            data: interViewReport 
+            success: true,
+            data: interViewReport
         });
 
     } catch (error) {
         console.error("Error in generateInterViewReportController:", error);
+        
+        // Check if it's a validation error
+        if (error.name === 'ValidationError') {
+            const errors = Object.values(error.errors).map(err => err.message);
+            return res.status(400).json({ 
+                success: false, 
+                message: "Validation failed", 
+                errors 
+            });
+        }
+        
         return res.status(500).json({ success: false, message: error.message });
     }
 }
 
-export {
-    generateInterViewReportController
-};
+/**
+ * @route GET /api/interview/report/:InterviewId
+ * @description generate new interview report  on the basis of user self description,resume pdf & job description
+ * @access private
+ */
+async function getInterviewReportByIdController(req,res) {
+
+    const {InterviewId}=req.params
+    const interviewReport=await InterviewReportModel.findOne({_id:InterviewId,user:req.user.id})
+
+    
+}
+
+/**
+ 
+ * @description controller to get all interview reports of logged in user
+ 
+ */
+async function getAllInterviewReportsController(req,res) {
+    const interviewReports=await InterviewReportModel.find({user:req.user.id}).sort({createdAt:-1}).select('-resume -selfDescription -jobDescription -_v -technicalQuestions -behavioralQuestions -skillGaps -preparationPlan')
+    res.status(200).json({
+        message:'Interview Reports fetched successfully !!',
+        interviewReports
+    })
+}
+
+
+export { generateInterViewReportController,getInterviewReportByIdController,getAllInterviewReportsController };

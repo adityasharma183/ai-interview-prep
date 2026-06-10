@@ -1,0 +1,487 @@
+// ─── Design Tokens ───────────────────────────────────────────────────────────
+
+$color-bg:               #020617;
+$color-surface-0:        #0F172A;
+$color-surface-1:        #1E293B;
+$color-surface-2:        #334155;
+$color-border:           #1E293B;
+$color-border-focus:     #2563EB;
+$color-primary:          #2563EB;
+$color-primary-hover:    #1D4ED8;
+$color-primary-disabled: #334155;
+$color-text-main:        #D3E4FE;
+$color-text-muted:       #94A3B8;
+$color-text-hint:        #64748B;
+$color-teal:             #7BD0FF;
+$color-teal-bg:          rgba(123, 208, 255, 0.1);
+$color-teal-border:      rgba(123, 208, 255, 0.25);
+$color-amber:            #F59E0B;
+
+$radius-sm:   6px;
+$radius-md:   8px;
+$radius-lg:   12px;
+$radius-xl:   14px;
+$radius-2xl:  16px;
+$radius-full: 9999px;
+
+$font-main: Inter, system-ui, -apple-system, sans-serif;
+
+// ─── Global Reset ─────────────────────────────────────────────────────────────
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+// ─── Page Wrapper ─────────────────────────────────────────────────────────────
+
+.home {
+  min-height: 100vh;
+  background: $color-bg;
+  color: $color-text-main;
+  font-family: $font-main;
+  display: flex;
+  flex-direction: column;
+}
+
+// ─── Navbar ───────────────────────────────────────────────────────────────────
+
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  background: rgba(2, 6, 23, 0.9);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid $color-border;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  padding: 0 40px;
+  gap: 28px;
+
+  &__logo {
+    font-size: 16px;
+    font-weight: 700;
+    color: $color-text-main;
+    letter-spacing: -0.02em;
+    margin-right: 8px;
+  }
+
+  &__link {
+    background: none;
+    border: none;
+    border-bottom: 2px solid transparent;
+    color: $color-text-muted;
+    font-size: 14px;
+    font-weight: 400;
+    font-family: $font-main;
+    padding: 4px 0;
+    cursor: pointer;
+    transition: color 0.15s;
+
+    &--active {
+      color: $color-primary;
+      font-weight: 600;
+      border-bottom-color: $color-primary;
+    }
+  }
+
+  &__actions {
+    margin-left: auto;
+    display: flex;
+    gap: 14px;
+    align-items: center;
+  }
+
+  &__icon-btn {
+    background: none;
+    border: none;
+    color: $color-text-hint;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    font-size: 20px;
+    transition: color 0.15s;
+
+    &:hover {
+      color: $color-text-muted;
+    }
+  }
+}
+
+// ─── Main Content ─────────────────────────────────────────────────────────────
+
+.main {
+  flex: 1;
+  padding: 88px 40px 48px;
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+// ─── Page Header ──────────────────────────────────────────────────────────────
+
+.page-header {
+  margin-bottom: 32px;
+
+  &__eyebrow {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: $color-primary;
+    margin: 0 0 8px;
+  }
+
+  &__title {
+    font-size: 28px;
+    font-weight: 700;
+    color: $color-text-main;
+    letter-spacing: -0.02em;
+    margin: 0 0 8px;
+  }
+
+  &__subtitle {
+    font-size: 14px;
+    color: $color-text-muted;
+    margin: 0;
+    line-height: 1.6;
+  }
+}
+
+// ─── Two-column Grid ──────────────────────────────────────────────────────────
+
+.interview-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  margin-bottom: 24px;
+  align-items: start;
+}
+
+// ─── Left Column ─────────────────────────────────────────────────────────────
+
+.left-col {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+// ─── Right Column ─────────────────────────────────────────────────────────────
+
+.right-col {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+// ─── Shared Field Label ───────────────────────────────────────────────────────
+
+.field-label {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  font-size: 13px;
+  font-weight: 500;
+  color: $color-text-main;
+  margin-bottom: 8px;
+
+  i {
+    font-size: 15px;
+    color: $color-text-muted;
+  }
+}
+
+// ─── Card Surface ─────────────────────────────────────────────────────────────
+
+.card {
+  background: $color-surface-0;
+  border: 1px solid $color-border;
+  border-radius: $radius-2xl;
+  padding: 18px;
+
+  &--dashed {
+    border-style: dashed;
+    border-color: $color-surface-2;
+  }
+
+  &--focused {
+    border-color: $color-border-focus;
+  }
+}
+
+// ─── Textarea ─────────────────────────────────────────────────────────────────
+
+.textarea {
+  width: 100%;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: $color-text-main;
+  font-size: 13px;
+  font-family: $font-main;
+  line-height: 1.65;
+  resize: none;
+  padding: 0;
+
+  &::placeholder {
+    color: $color-text-hint;
+  }
+
+  &:focus {
+    outline: none;
+  }
+
+  &--jd {
+    min-height: 300px;
+  }
+
+  &--self {
+    min-height: 130px;
+  }
+}
+
+// ─── Job Description Panel ───────────────────────────────────────────────────
+
+.jd-panel {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+
+  .card {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__char-count {
+    font-size: 11px;
+    color: $color-text-hint;
+    text-align: right;
+    margin: 8px 0 0;
+  }
+}
+
+// ─── Resume Upload ────────────────────────────────────────────────────────────
+
+.resume-tip {
+  font-size: 11px;
+  font-weight: 500;
+  color: $color-teal;
+  background: $color-teal-bg;
+  border: 1px solid $color-teal-border;
+  border-radius: $radius-full;
+  padding: 2px 10px;
+  letter-spacing: 0.01em;
+}
+
+.resume-dropzone {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 100px;
+  cursor: pointer;
+
+  &__hint {
+    font-size: 11px;
+    color: $color-text-hint;
+    margin: 0;
+  }
+}
+
+.resume-preview {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+
+  &__info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  &__name {
+    font-size: 13px;
+    font-weight: 500;
+    color: $color-text-main;
+  }
+
+  &__pdf-icon {
+    font-size: 20px;
+    color: $color-primary;
+  }
+}
+
+// ─── Shared Buttons ───────────────────────────────────────────────────────────
+
+.btn {
+  font-family: $font-main;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+
+  &--upload {
+    background: $color-surface-1;
+    border: 1px solid $color-surface-2;
+    border-radius: $radius-md;
+    color: $color-text-main;
+    font-size: 13px;
+    font-weight: 500;
+    padding: 7px 18px;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+
+    &:hover {
+      background: $color-surface-2;
+    }
+  }
+
+  &--remove {
+    background: none;
+    border: 1px solid $color-surface-2;
+    border-radius: $radius-sm;
+    color: $color-text-muted;
+    font-size: 12px;
+    padding: 3px 12px;
+
+    &:hover {
+      border-color: $color-text-muted;
+      color: $color-text-main;
+    }
+  }
+
+  &--generate {
+    width: 100%;
+    background: $color-primary;
+    border: none;
+    border-radius: 10px;
+    color: #fff;
+    font-size: 14px;
+    font-weight: 600;
+    padding: 14px 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+    letter-spacing: -0.01em;
+
+    i {
+      font-size: 17px;
+    }
+
+    &:hover {
+      background: $color-primary-hover;
+    }
+
+    &:disabled {
+      background: $color-primary-disabled;
+      color: $color-text-hint;
+      cursor: not-allowed;
+    }
+  }
+}
+
+// ─── Stat Cards ───────────────────────────────────────────────────────────────
+
+.stat-cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+}
+
+.stat-card {
+  background: $color-surface-0;
+  border: 1px solid $color-border;
+  border-radius: $radius-lg;
+  padding: 14px 18px;
+  display: flex;
+  align-items: center;
+  gap: 13px;
+
+  &__icon-wrap {
+    width: 38px;
+    height: 38px;
+    background: $color-surface-1;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+
+    i {
+      font-size: 19px;
+    }
+  }
+
+  &__label {
+    font-size: 12px;
+    font-weight: 600;
+    margin: 0 0 2px;
+
+    &--default { color: $color-text-muted; }
+    &--primary  { color: $color-primary; }
+    &--amber    { color: $color-amber; }
+  }
+
+  &__value {
+    font-size: 12px;
+    color: $color-text-hint;
+    margin: 0;
+    line-height: 1.5;
+  }
+
+  &__icon {
+    &--default { color: $color-text-muted; }
+    &--primary  { color: $color-primary; }
+    &--amber    { color: $color-amber; }
+  }
+}
+
+// ─── Footer ───────────────────────────────────────────────────────────────────
+
+.footer {
+  border-top: 1px solid $color-border;
+  padding: 18px 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  &__brand {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  &__logo {
+    font-size: 13px;
+    font-weight: 700;
+    color: $color-text-main;
+  }
+
+  &__copy {
+    font-size: 11px;
+    color: $color-text-hint;
+  }
+
+  &__links {
+    display: flex;
+    gap: 18px;
+  }
+
+  &__link {
+    font-size: 12px;
+    color: $color-text-muted;
+    text-decoration: none;
+
+    &:hover {
+      color: $color-text-main;
+    }
+  }
+}
