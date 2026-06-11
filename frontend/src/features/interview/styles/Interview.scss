@@ -1,4 +1,4 @@
-// ─── Interview Page Styles - Two Column Layout ───────────────────────────────
+// ─── Interview Page Styles - Three Column Layout ──────────────────────────────
 
 // ─── Design Tokens ───────────────────────────────────────────────────────────
 
@@ -30,9 +30,9 @@ $radius-full: 9999px;
 
 $font-main: Inter, system-ui, -apple-system, sans-serif;
 
-// ─── Main Interview Component ─────────────────────────────────────────────────
+// ─── Main Interview Page ─────────────────────────────────────────────────────
 
-.interview {
+.interview-page {
   min-height: 100vh;
   background: $color-bg;
   color: $color-text-main;
@@ -41,144 +41,191 @@ $font-main: Inter, system-ui, -apple-system, sans-serif;
   max-width: 1400px;
   margin: 0 auto;
   width: 100%;
+}
+
+.interview-layout {
+  display: grid;
+  grid-template-columns: 240px 1px 1fr 1px 280px;
+  gap: 0;
+  background: $color-surface-0;
+  border-radius: $radius-2xl;
+  border: 1px solid $color-border;
+  overflow: hidden;
+}
+
+// ─── Left Navigation ─────────────────────────────────────────────────────────
+
+.interview-nav {
+  background: $color-surface-1;
+  padding: 24px 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   
-  &__layout {
-    display: grid;
-    grid-template-columns: 1fr 320px;
-    gap: 32px;
-    align-items: start;
-  }
-  
-  &__left {
-    background: $color-surface-0;
-    border-radius: $radius-2xl;
-    border: 1px solid $color-border;
-    overflow: hidden;
-  }
-  
-  &__right {
+  .nav-content {
     display: flex;
     flex-direction: column;
-    gap: 24px;
+    gap: 8px;
   }
   
-  &__tabs {
+  &__label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    color: $color-text-hint;
+    margin: 0 0 12px 12px;
+  }
+  
+  &__item {
     display: flex;
-    border-bottom: 1px solid $color-border;
-    background: $color-surface-1;
-    padding: 0 20px;
-  }
-  
-  &__tab {
+    align-items: center;
+    gap: 12px;
+    padding: 10px 12px;
     background: none;
     border: none;
-    padding: 16px 20px;
+    border-radius: $radius-lg;
     font-family: $font-main;
     font-size: 13px;
     font-weight: 500;
     color: $color-text-muted;
     cursor: pointer;
-    display: flex;
-    align-items: center;
-    gap: 8px;
     transition: all 0.15s;
-    position: relative;
-    
-    i {
-      font-size: 14px;
-      color: $color-text-hint;
-    }
+    width: 100%;
+    text-align: left;
     
     &:hover {
+      background: rgba(37, 99, 235, 0.1);
       color: $color-text-main;
-      
-      i {
-        color: $color-text-muted;
-      }
     }
     
     &--active {
+      background: rgba(37, 99, 235, 0.15);
       color: $color-primary;
       
-      i {
-        color: $color-primary;
+      .interview-nav__icon svg {
+        stroke: $color-primary;
       }
-      
-      &::after {
-        content: '';
-        position: absolute;
-        bottom: -1px;
-        left: 0;
-        right: 0;
-        height: 2px;
-        background: $color-primary;
-      }
-    }
-    
-    &-count {
-      font-size: 11px;
-      color: $color-text-hint;
-      background: $color-surface-2;
-      padding: 2px 6px;
-      border-radius: $radius-full;
-      margin-left: 4px;
     }
   }
   
-  &__content {
-    padding: 24px;
+  &__icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    
+    svg {
+      stroke: currentColor;
+      stroke-width: 2;
+    }
+  }
+  
+  &__count {
+    margin-left: auto;
+    font-size: 11px;
+    color: $color-text-hint;
+    background: $color-surface-2;
+    padding: 2px 6px;
+    border-radius: $radius-full;
   }
 }
 
-// ─── Questions Section ────────────────────────────────────────────────────────
+// ─── Dividers ─────────────────────────────────────────────────────────────────
 
-.questions-section {
+.interview-divider {
+  width: 1px;
+  background: $color-border;
+}
+
+// ─── Center Content ──────────────────────────────────────────────────────────
+
+.interview-content {
+  background: $color-surface-0;
+  padding: 24px;
+  min-height: 500px;
+  
+  section {
+    animation: fadeIn 0.3s ease-out;
+  }
+}
+
+.content-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 24px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid $color-border;
+  
+  h2 {
+    font-size: 18px;
+    font-weight: 600;
+    color: $color-text-main;
+    margin: 0;
+  }
+  
+  &__count {
+    font-size: 12px;
+    color: $color-text-hint;
+    background: $color-surface-1;
+    padding: 4px 10px;
+    border-radius: $radius-full;
+  }
+}
+
+// ─── Questions List ──────────────────────────────────────────────────────────
+
+.q-list {
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 16px;
 }
 
+// ─── Question Card (Same as question-item) ───────────────────────────────────
+
 .question-item {
-  border-bottom: 1px solid $color-border;
-  padding-bottom: 20px;
+  background: $color-surface-1;
+  border: 1px solid $color-border;
+  border-radius: $radius-lg;
+  overflow: hidden;
+  transition: all 0.15s;
   
-  &:last-child {
-    border-bottom: none;
-    padding-bottom: 0;
+  &:hover {
+    border-color: $color-surface-2;
   }
   
   &__header {
     display: flex;
     align-items: center;
     gap: 12px;
+    padding: 16px 20px;
     cursor: pointer;
     user-select: none;
-    transition: all 0.15s;
+    transition: background 0.15s;
     
     &:hover {
-      .question-item__title {
-        color: $color-primary;
-      }
+      background: rgba(37, 99, 235, 0.05);
       
-      .question-item__toggle {
+      .question-item__title {
         color: $color-primary;
       }
     }
   }
   
   &__number {
-    font-size: 14px;
+    font-size: 13px;
     font-weight: 700;
     color: $color-primary;
     background: rgba(37, 99, 235, 0.1);
-    padding: 2px 8px;
+    padding: 4px 10px;
     border-radius: $radius-sm;
-    height: fit-content;
+    flex-shrink: 0;
   }
   
   &__title {
-    font-size: 15px;
-    font-weight: 600;
+    font-size: 14px;
+    font-weight: 500;
     color: $color-text-main;
     margin: 0;
     line-height: 1.5;
@@ -187,7 +234,9 @@ $font-main: Inter, system-ui, -apple-system, sans-serif;
   }
   
   &__toggle {
-    font-size: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     color: $color-text-hint;
     transition: transform 0.2s ease, color 0.15s;
     flex-shrink: 0;
@@ -195,33 +244,41 @@ $font-main: Inter, system-ui, -apple-system, sans-serif;
     &.rotated {
       transform: rotate(180deg);
     }
+    
+    svg {
+      stroke: currentColor;
+      stroke-width: 2;
+    }
   }
   
   &__details {
-    margin-top: 16px;
-    margin-left: 28px;
+    padding: 0 20px 20px 20px;
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 16px;
+    border-top: 1px solid $color-border;
     animation: slideDown 0.2s ease-out;
   }
   
   &__intention,
   &__answer {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
     font-size: 13px;
     line-height: 1.6;
     color: $color-text-muted;
     
-    i {
-      color: $color-primary;
-      margin-right: 8px;
-      font-size: 12px;
+    svg {
+      flex-shrink: 0;
+      margin-top: 2px;
+      stroke: $color-primary;
     }
     
     strong {
       color: $color-text-main;
       font-weight: 600;
-      margin-right: 8px;
+      margin-right: 4px;
     }
   }
   
@@ -230,19 +287,31 @@ $font-main: Inter, system-ui, -apple-system, sans-serif;
   }
 }
 
-// ─── Roadmap Section ──────────────────────────────────────────────────────────
+// ─── Roadmap List ────────────────────────────────────────────────────────────
 
-.roadmap-section {
+.roadmap-list {
   display: flex;
   flex-direction: column;
-  gap: 28px;
+  gap: 24px;
 }
 
+// ─── Plan Item (RoadMapDay) ──────────────────────────────────────────────────
+
 .plan-item {
+  background: $color-surface-1;
+  border: 1px solid $color-border;
+  border-radius: $radius-lg;
+  padding: 20px;
+  transition: all 0.15s;
+  
+  &:hover {
+    border-color: $color-surface-2;
+  }
+  
   &__header {
     display: flex;
     gap: 12px;
-    margin-bottom: 12px;
+    margin-bottom: 16px;
     align-items: baseline;
   }
   
@@ -266,7 +335,7 @@ $font-main: Inter, system-ui, -apple-system, sans-serif;
   &__tasks {
     list-style: none;
     padding: 0;
-    margin: 0 0 0 28px;
+    margin: 0;
     
     li {
       display: flex;
@@ -274,119 +343,14 @@ $font-main: Inter, system-ui, -apple-system, sans-serif;
       gap: 10px;
       font-size: 13px;
       color: $color-text-muted;
-      margin-bottom: 10px;
+      padding: 8px 0;
       line-height: 1.5;
-      
-      i {
-        color: $color-green;
-        font-size: 12px;
-        flex-shrink: 0;
-      }
-      
-      &:last-child {
-        margin-bottom: 0;
-      }
-    }
-  }
-}
-
-// ─── Match Score Card ─────────────────────────────────────────────────────────
-
-.match-score-card {
-  background: linear-gradient(135deg, $color-surface-0 0%, $color-surface-1 100%);
-  border: 1px solid $color-border;
-  border-radius: $radius-2xl;
-  padding: 24px;
-  text-align: center;
-  
-  &__header {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    margin-bottom: 20px;
-    
-    i {
-      font-size: 20px;
-      color: $color-primary;
-    }
-    
-    h3 {
-      font-size: 13px;
-      font-weight: 700;
-      letter-spacing: 1px;
-      color: $color-text-muted;
-      margin: 0;
-    }
-  }
-  
-  &__score {
-    margin-bottom: 12px;
-  }
-  
-  &__percentage {
-    font-size: 64px;
-    font-weight: 800;
-    background: linear-gradient(135deg, $color-primary 0%, $color-teal 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
-  
-  &__description {
-    font-size: 13px;
-    color: $color-green;
-    margin: 0;
-    font-weight: 500;
-  }
-}
-
-// ─── Skill Gaps Card ─────────────────────────────────────────────────────────
-
-.skill-gaps-card {
-  background: $color-surface-0;
-  border: 1px solid $color-border;
-  border-radius: $radius-2xl;
-  padding: 24px;
-  
-  &__header {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    margin-bottom: 20px;
-    
-    i {
-      font-size: 18px;
-      color: $color-amber;
-    }
-    
-    h3 {
-      font-size: 13px;
-      font-weight: 700;
-      letter-spacing: 1px;
-      color: $color-text-muted;
-      margin: 0;
-    }
-  }
-  
-  &__list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    
-    li {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      font-size: 13px;
-      color: $color-text-main;
-      padding: 10px 0;
       border-bottom: 1px solid $color-border;
-      flex-wrap: wrap;
       
-      i {
-        font-size: 11px;
-        color: $color-amber;
+      svg {
+        stroke: $color-green;
+        stroke-width: 2;
+        flex-shrink: 0;
       }
       
       &:last-child {
@@ -399,30 +363,214 @@ $font-main: Inter, system-ui, -apple-system, sans-serif;
       }
     }
   }
+}
+
+// ─── Right Sidebar ───────────────────────────────────────────────────────────
+
+.interview-sidebar {
+  background: $color-surface-1;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+// ─── Match Score Component ───────────────────────────────────────────────────
+
+.match-score {
+  text-align: center;
   
-  &__skill {
-    flex: 1;
+  &__label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    color: $color-text-hint;
+    margin: 0 0 16px 0;
   }
   
-  &__importance {
-    font-size: 10px;
+  &__ring {
+    position: relative;
+    width: 140px;
+    height: 140px;
+    margin: 0 auto 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      border-radius: 50%;
+      padding: 4px;
+      background: conic-gradient(
+        from 0deg,
+        $color-primary 0%,
+        $color-teal 100%
+      );
+      mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+    }
+    
+    &.score--high::before {
+      background: conic-gradient(from 0deg, $color-green 0%, $color-primary 100%);
+    }
+    
+    &.score--mid::before {
+      background: conic-gradient(from 0deg, $color-amber 0%, $color-primary 100%);
+    }
+    
+    &.score--low::before {
+      background: conic-gradient(from 0deg, $color-red 0%, $color-primary 100%);
+    }
+  }
+  
+  &__value {
+    font-size: 42px;
+    font-weight: 800;
+    color: $color-text-main;
+  }
+  
+  &__pct {
+    font-size: 18px;
     font-weight: 600;
-    padding: 2px 8px;
-    border-radius: $radius-full;
+    color: $color-text-muted;
+  }
+  
+  &__sub {
+    font-size: 12px;
+    color: $color-text-muted;
+    margin: 0;
+  }
+}
+
+// ─── Sidebar Divider ─────────────────────────────────────────────────────────
+
+.sidebar-divider {
+  height: 1px;
+  background: $color-border;
+}
+
+// ─── Skill Gaps Component ────────────────────────────────────────────────────
+
+.skill-gaps {
+  
+  &__label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    color: $color-text-hint;
+    margin: 0 0 16px 0;
+  }
+  
+  &__list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+}
+
+.skill-tag {
+  display: inline-block;
+  padding: 8px 12px;
+  background: $color-surface-2;
+  border-radius: $radius-md;
+  font-size: 12px;
+  font-weight: 500;
+  color: $color-text-main;
+  transition: all 0.15s;
+  
+  &--high {
+    background: rgba(239, 68, 68, 0.15);
+    color: $color-red;
+    border-left: 3px solid $color-red;
+  }
+  
+  &--medium {
+    background: rgba(245, 158, 11, 0.15);
+    color: $color-amber;
+    border-left: 3px solid $color-amber;
+  }
+  
+  &--low {
+    background: rgba(16, 185, 129, 0.15);
+    color: $color-green;
+    border-left: 3px solid $color-green;
+  }
+  
+  &:hover {
+    transform: translateX(4px);
+  }
+}
+
+// ─── Button Styles ───────────────────────────────────────────────────────────
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 16px;
+  border: none;
+  border-radius: $radius-lg;
+  font-family: $font-main;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.15s;
+  
+  &.primary-button {
+    background: $color-primary;
+    color: white;
+    margin-top: 24px;
     
-    &--high {
-      background: rgba(239, 68, 68, 0.1);
-      color: $color-red;
+    &:hover {
+      background: $color-primary-hover;
+      transform: translateY(-1px);
+    }
+  }
+}
+
+// ─── Loading Screen ──────────────────────────────────────────────────────────
+
+.loading-screen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: $color-bg;
+  z-index: 1000;
+  
+  .loading-content {
+    text-align: center;
+    
+    svg {
+      margin-bottom: 20px;
+      color: $color-primary;
     }
     
-    &--medium {
-      background: rgba(245, 158, 11, 0.1);
-      color: $color-amber;
+    h1 {
+      font-size: 24px;
+      font-weight: 600;
+      color: $color-text-main;
+      margin: 0 0 12px;
     }
     
-    &--low {
-      background: rgba(16, 185, 129, 0.1);
-      color: $color-green;
+    p {
+      font-size: 14px;
+      color: $color-text-muted;
+      margin: 0;
     }
   }
 }
@@ -440,81 +588,117 @@ $font-main: Inter, system-ui, -apple-system, sans-serif;
   }
 }
 
-// ─── Responsive Design ────────────────────────────────────────────────────────
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.spin {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+// ─── Responsive Design ───────────────────────────────────────────────────────
+
+@media (max-width: 1024px) {
+  .interview-layout {
+    grid-template-columns: 200px 1px 1fr 1px 260px;
+  }
+}
 
 @media (max-width: 968px) {
-  .interview {
+  .interview-page {
     padding: 80px 24px 32px;
+  }
+  
+  .interview-layout {
+    grid-template-columns: 1fr;
+  }
+  
+  .interview-divider {
+    display: none;
+  }
+  
+  .interview-nav {
+    flex-direction: row;
+    align-items: center;
     
-    &__layout {
-      grid-template-columns: 1fr;
-      gap: 24px;
+    .nav-content {
+      flex-direction: row;
+      flex-wrap: wrap;
+      gap: 8px;
     }
     
-    &__right {
-      flex-direction: row;
-      gap: 20px;
+    &__label {
+      display: none;
     }
   }
   
-  .match-score-card,
-  .skill-gaps-card {
-    flex: 1;
+  .interview-sidebar {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+  
+  .sidebar-divider {
+    display: none;
   }
 }
 
 @media (max-width: 640px) {
-  .interview {
+  .interview-page {
     padding: 76px 16px 24px;
+  }
+  
+  .interview-nav {
+    flex-direction: column;
     
-    &__tabs {
-      padding: 0 12px;
-      overflow-x: auto;
-      
-      &::-webkit-scrollbar {
-        display: none;
-      }
+    .nav-content {
+      width: 100%;
     }
-    
-    &__tab {
-      white-space: nowrap;
-      padding: 12px 16px;
-      
-      &-count {
-        display: none;
-      }
-    }
-    
-    &__content {
-      padding: 20px 16px;
-    }
-    
-    &__right {
-      flex-direction: column;
-    }
+  }
+  
+  .interview-sidebar {
+    grid-template-columns: 1fr;
+  }
+  
+  .content-header {
+    flex-direction: column;
+    gap: 8px;
   }
   
   .question-item {
     &__header {
-      gap: 8px;
-    }
-    
-    &__number {
-      flex-shrink: 0;
+      flex-wrap: wrap;
     }
     
     &__details {
-      margin-left: 0;
+      padding: 0 16px 16px 16px;
     }
   }
   
-  .match-score-card__percentage {
-    font-size: 48px;
+  .plan-item__header {
+    flex-direction: column;
   }
   
-  .skill-gaps-card__list li {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 6px;
+  .match-score__ring {
+    width: 120px;
+    height: 120px;
+  }
+  
+  .match-score__value {
+    font-size: 32px;
   }
 }
